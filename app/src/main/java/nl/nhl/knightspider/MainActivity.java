@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         diagnosticsLayout = (ScrollView) findViewById(R.id.diagnotsics_layout);
         liveStreamLayout = findViewById(R.id.live_stream_layout);
 
-        fillDiagnosticsLayout();
+//        fillDiagnosticsLayout();
 
         showLayout(R.id.navigation_diagnostics);
     }
