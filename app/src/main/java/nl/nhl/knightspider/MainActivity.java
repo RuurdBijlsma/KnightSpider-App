@@ -1,5 +1,6 @@
 package nl.nhl.knightspider;
 
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,8 +17,6 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private void hideLayouts() {
@@ -57,19 +58,39 @@ public class MainActivity extends AppCompatActivity {
     private GridLayout gridLayout;
     BottomNavigationView navigation;
 
+    private DisplayMetrics getDisplayMetrics() {
+        return getResources().getDisplayMetrics();
+    }
+
+    private int dpToPx(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getDisplayMetrics());
+    }
+
+    private TextView getBigText(String text) {
+        TextView textView = new TextView(getApplicationContext());
+        textView.setText(text);
+        textView.setTypeface(Typeface.MONOSPACE);
+        textView.setTextSize(32);
+        int padding = dpToPx(15);
+        textView.setPadding(padding, padding, padding, padding);
+        return textView;
+    }
+
     private CardView getDiagCard(@Nullable View child) {
         CardView card = new CardView(getApplicationContext());
-        card.setMinimumWidth(165);
-        card.setMinimumHeight(120);
+        card.setMinimumWidth(dpToPx(165));
+        card.setMinimumHeight(dpToPx(120));
         card.setForegroundGravity(Gravity.CENTER);
 
+        DisplayMetrics metrics = getDisplayMetrics();
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        int margin = 10;
+        int margin = dpToPx(10);
         lp.setMargins(margin, margin, margin, margin);
 
         card.setLayoutParams(lp);
-        card.setRadius(4);
-        int padding = 15;
+        card.setRadius(dpToPx(4));
+        int padding = dpToPx(15);
         card.setContentPadding(padding, padding, padding, padding);
 
         if (child != null)
@@ -78,33 +99,33 @@ public class MainActivity extends AppCompatActivity {
         return card;
     }
 
-    private void fillDiagnosticsLayout() {
-        LinearLayout ll = new LinearLayout(getApplicationContext());
-        ll.setOrientation(LinearLayout.VERTICAL);
-
-        TextView spinText = new TextView(getApplicationContext());
-        spinText.setText("Spin diagnostiek");
-        spinText.setTypeface(Typeface.MONOSPACE);
-        spinText.setTextSize(32);
-        diagnosticsLayout.addView(spinText);
-
-        for (int i = 0; i < 2; i++) {
+    private void addCardsToLayout(LinearLayout layout, int number, int cardsPerRow) {
+        LinearLayout currentLayout = null;
+        for (int i = 0; i < number; i++) {
+            if (i % cardsPerRow == 0) {
+                currentLayout = new LinearLayout(getApplicationContext());
+                currentLayout.setOrientation(LinearLayout.HORIZONTAL);
+                layout.addView(currentLayout);
+            }
             TextView tv = new TextView(getApplicationContext());
             tv.setText("Spin" + i);
-            diagnosticsLayout.addView(getDiagCard(tv));
+            currentLayout.addView(getDiagCard(tv));
         }
+    }
 
-        TextView servoText = new TextView(getApplicationContext());
-        servoText.setText("Servo diagnostiek");
-        servoText.setTypeface(Typeface.MONOSPACE);
-        servoText.setTextSize(32);
-        diagnosticsLayout.addView(servoText);
+    private void fillDiagnosticsLayout() {
+        LinearLayout contentLayout = new LinearLayout(getApplicationContext());
+        contentLayout.setOrientation(LinearLayout.VERTICAL);
 
-        for (int i = 0; i < 18; i++) {
-            TextView tv = new TextView(getApplicationContext());
-            tv.setText("Servo" + i);
-            diagnosticsLayout.addView(getDiagCard(tv));
-        }
+        contentLayout.addView(getBigText("Spin diagnostiek"));
+
+        addCardsToLayout(contentLayout, 2, 2);
+
+        contentLayout.addView(getBigText("Servo diagnostiek"));
+
+        addCardsToLayout(contentLayout, 18, 2);
+
+        diagnosticsLayout.addView(contentLayout);
     }
 
     @Override
@@ -119,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
         spiderLayout = findViewById(R.id.spider_layout);
         diagnosticsLayout = (ScrollView) findViewById(R.id.diagnotsics_layout);
         liveStreamLayout = findViewById(R.id.live_stream_layout);
+
+        fillDiagnosticsLayout();
 
         showLayout(R.id.navigation_diagnostics);
     }
