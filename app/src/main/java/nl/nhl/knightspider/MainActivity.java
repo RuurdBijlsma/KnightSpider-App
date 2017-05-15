@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 //        fillDiagnosticsLayout();
         LinearLayout jojo = (LinearLayout) findViewById(R.id.jojo);
 
-        InfoCard infoCard = new InfoCard(getApplicationContext(), Color.argb(255, 10, 10, 10), R.drawable.gyroicon, 150, 200);
+        InfoCard infoCard = new InfoCard(getApplicationContext(), Color.argb(255, 10, 10, 10), R.drawable.batteryicon, 200, 150);
         infoCard.setText("Batterij 39%");
 
         jojo.addView(infoCard);

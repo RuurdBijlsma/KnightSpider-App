@@ -62,7 +62,7 @@
                             android:layout_height="105dp"
                             android:background="@android:color/background_dark"
                             android:padding="20dp"
-                            app:srcCompat="@drawable/gyroicon" />
+                            app:srcCompat="@drawable/batteryicon" />
 
                         <TextView
                             android:id="@+id/textView"

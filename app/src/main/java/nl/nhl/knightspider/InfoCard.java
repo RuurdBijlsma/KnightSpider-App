@@ -24,7 +24,7 @@ public class InfoCard extends CardView {
         super(context);
     }
 
-    public InfoCard(Context context, int colorId, int iconId, int height, int width) {
+    public InfoCard(Context context, int colorId, int iconId, int width, int height) {
         super(context);
 
         int margin = dpToPx(10);
@@ -34,11 +34,11 @@ public class InfoCard extends CardView {
         setForegroundGravity(Gravity.CENTER);
         setRadius(dpToPx(4));
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dpToPx(height), dpToPx(width));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dpToPx(width), dpToPx(height));
         lp.setMargins(margin, margin, margin, margin);
         setLayoutParams(lp);
 
-        layout = new LinearLayout(context);
+        LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
 
         textView = new TextView(context);
@@ -57,7 +57,6 @@ public class InfoCard extends CardView {
         addView(layout);
     }
 
-    private LinearLayout layout;
     private TextView textView;
     private ImageView imageView;
 
