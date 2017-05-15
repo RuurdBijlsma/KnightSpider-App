@@ -1,6 +1,7 @@
 package nl.nhl.knightspider;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             card.addView(child);
 
         DisplayMetrics metrics = getDisplayMetrics();
-        card.setMinimumWidth(metrics.widthPixels/2);
+        card.setMinimumWidth(metrics.widthPixels / 2);
         card.setMinimumHeight(dpToPx(120));
 
         return card;
@@ -142,6 +143,12 @@ public class MainActivity extends AppCompatActivity {
         liveStreamLayout = findViewById(R.id.live_stream_layout);
 
 //        fillDiagnosticsLayout();
+        LinearLayout jojo = (LinearLayout) findViewById(R.id.jojo);
+
+        InfoCard infoCard = new InfoCard(getApplicationContext(), Color.argb(255, 10, 10, 10), R.drawable.gyroicon, 150, 200);
+        infoCard.setText("Batterij 39%");
+
+        jojo.addView(infoCard);
 
         showLayout(R.id.navigation_diagnostics);
     }

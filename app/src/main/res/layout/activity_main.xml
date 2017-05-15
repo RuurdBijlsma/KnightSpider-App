@@ -36,6 +36,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/jojo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -61,13 +62,13 @@
                             android:layout_height="105dp"
                             android:background="@android:color/background_dark"
                             android:padding="20dp"
-                            app:srcCompat="@drawable/batteryicon" />
+                            app:srcCompat="@drawable/gyroicon" />
 
                         <TextView
                             android:id="@+id/textView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="8dp"
+                            android:padding="10dp"
                             android:text="Batterij 85%"
                             android:textAlignment="center"
                             android:textSize="20sp" />
