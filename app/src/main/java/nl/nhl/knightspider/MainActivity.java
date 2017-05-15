@@ -78,11 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CardView getDiagCard(@Nullable View child) {
         CardView card = new CardView(getApplicationContext());
-        card.setMinimumWidth(dpToPx(165));
-        card.setMinimumHeight(dpToPx(120));
         card.setForegroundGravity(Gravity.CENTER);
-
-        DisplayMetrics metrics = getDisplayMetrics();
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         int margin = dpToPx(10);
@@ -95,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (child != null)
             card.addView(child);
+
+        DisplayMetrics metrics = getDisplayMetrics();
+        card.setMinimumWidth(metrics.widthPixels/2);
+        card.setMinimumHeight(dpToPx(120));
 
         return card;
     }
