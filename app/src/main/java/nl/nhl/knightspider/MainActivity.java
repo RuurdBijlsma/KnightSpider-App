@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.getMenu().getItem(2).setChecked(true);
 
         spiderLayout = findViewById(R.id.spider_layout);
         diagnosticsLayout = (ScrollView) findViewById(R.id.diagnostics_container);
@@ -80,22 +78,25 @@ public class MainActivity extends AppCompatActivity {
         diagnostics.setVolt(3.3f);
         diagnostics.setLoad(40);
 
+        //Live stream screen
+        WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
+        streamViewer.getSettings().setJavaScriptEnabled(true);
+        streamViewer.loadUrl("141.252.168.52:5000");
+
         //Spider 3D stream screen
-        spiderViewer = (WebView) findViewById(R.id.stream_viewer);
+        spiderViewer = (WebView) findViewById(R.id.spider_viewer);
         spiderViewer.getSettings().setJavaScriptEnabled(true);
-        WebInterface webInterface = new WebInterface(this);
         spiderViewer.getSettings().setAppCacheEnabled(false);
         spiderViewer.getSettings().setAllowContentAccess(true);
-
         spiderViewer.loadUrl("http://ruurdbijlsma.com/SpiderDiagnostics/");
-        spiderViewer.addJavascriptInterface(webInterface, "android");
-
         navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
                 evaluateJavascript("java('ping')");
             }
         });
+
+        navigation.getMenu().getItem(2).setChecked(true);
         showLayout(R.id.navigation_live_stream);
     }
 

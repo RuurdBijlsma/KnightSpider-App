@@ -14,13 +14,17 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <GridLayout
+        <FrameLayout
             android:id="@+id/spider_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:columnCount="1">
 
-        </GridLayout>
+            <WebView
+                android:id="@+id/spider_viewer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/live_stream_layout"
