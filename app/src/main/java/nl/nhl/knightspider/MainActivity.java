@@ -81,14 +81,17 @@ public class MainActivity extends AppCompatActivity {
         //Live stream screen
         WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
         streamViewer.getSettings().setJavaScriptEnabled(true);
-        streamViewer.loadUrl("141.252.168.52:5000");
+        streamViewer.loadUrl("http://141.252.212.180:5000");
 
         //Spider 3D stream screen
         spiderViewer = (WebView) findViewById(R.id.spider_viewer);
         spiderViewer.getSettings().setJavaScriptEnabled(true);
         spiderViewer.getSettings().setAppCacheEnabled(false);
         spiderViewer.getSettings().setAllowContentAccess(true);
-        spiderViewer.loadUrl("http://ruurdbijlsma.com/SpiderDiagnostics/");
+        spiderViewer.getSettings().setAllowFileAccess(true);
+        spiderViewer.getSettings().setAllowFileAccessFromFileURLs(true);
+        spiderViewer.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        spiderViewer.loadUrl("file:///android_asset/web/index.html");
         navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
@@ -96,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        navigation.getMenu().getItem(2).setChecked(true);
-        showLayout(R.id.navigation_live_stream);
+        navigation.getMenu().getItem(1).setChecked(true);
+        showLayout(R.id.diagnostics_container);
     }
 
     public void evaluateJavascript(String javascript) {
