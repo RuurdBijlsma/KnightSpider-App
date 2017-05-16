@@ -49,9 +49,8 @@ class Spider extends THREE.Group {
     getClickedJoint(screenPosition) {
         for (let leg of this.legs) {
             let clickedJoint = leg.getClickedJoint(screenPosition);
-            console.log(clickedJoint);
-            if (clickedJoint) {
-                return clickedJoint;
+            if (clickedJoint.length > 0) {
+                return clickedJoint[0].object;
             }
         }
     }
