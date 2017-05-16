@@ -6,12 +6,12 @@ class View extends Scene {
 
         this.controls = new THREE.OrbitControls(this.camera, this.renderElement);
 
-        this.skyBox = new SkyBox(this, 'img/skybox/space/');
+        // this.skyBox = new SkyBox(this, 'img/skybox/space/');
 
         this.spider = new Spider();
         this.add(this.spider);
 
-        this.floor = new Cube(this, 0, -1, 0, 20, 1, 20, 0x55dd00);
+        // this.floor = new Cube(this, 0, -1, 0, 20, 1, 20, 0x55dd00);
 
         this.lights = {
             ambient: new AmbientLight(this),

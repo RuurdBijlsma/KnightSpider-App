@@ -21,17 +21,17 @@ class Scene extends THREE.Scene {
         this.renderElement.appendChild(this.renderer.domElement);
         window.addEventListener('resize', () => this.onWindowResize());
 
-        this.stats = new Stats();
-        this.stats.showPanel(0);
-        document.body.appendChild(this.stats.dom);
+        // this.stats = new Stats();
+        // this.stats.showPanel(0);
+        // document.body.appendChild(this.stats.dom);
 
         this.render();
     }
 
     render() {
-        this.stats.begin();
+        // this.stats.begin();
         this.renderer.render(this, this.camera);
-        this.stats.end();
+        // this.stats.end();
         requestAnimationFrame(() => this.render());
     }
 
