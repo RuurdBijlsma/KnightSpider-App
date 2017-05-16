@@ -16,6 +16,10 @@ class Leg extends THREE.Group {
                 if (--toLoad === 0) {
                     this.add(this.gammaJoint);
 
+                    this.coxa.mesh.name = 'coxa';
+                    this.femur.mesh.name = 'femur';
+                    this.tibia.mesh.name = 'tibia';
+
                     this.gammaJoint.add(this.coxa.object);
                     this.coxa.object.add(this.alphaJoint);
                     this.coxa.object.position.x = this.coxa.length / 2;
@@ -36,19 +40,17 @@ class Leg extends THREE.Group {
     set gamma(value) {
         this.gammaJoint.rotation.y = value;
     }
+
     set alpha(value) {
         this.alphaJoint.rotation.z = value;
     }
+
     set beta(value) {
         this.betaJoint.rotation.z = value;
     }
 
     getClickedJoint(screenPosition) {
-        let raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(screenPosition, MAIN.view.camera);
         let meshes = this.links.map(l => l.mesh);
-        console.log('meshes', meshes);
-        let intersects = raycaster.intersectObjects(meshes);
-        return intersects;
+        return MAIN.view.rayCast(screenPosition, meshes);
     }
 }

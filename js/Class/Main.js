@@ -5,7 +5,8 @@ class Main {
         this.input = new Input(this.loop);
 
         document.addEventListener('click', e => {
-            this.view.spider.getClickedJoint(new THREE.Vector2(e.pageX, e.pageY));
+            let joint = this.view.spider.getClickedJoint(new THREE.Vector2(e.pageX, e.pageY));
+            console.log(joint);
         });
     }
 

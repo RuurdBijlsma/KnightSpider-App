@@ -18,4 +18,13 @@ class View extends Scene {
             directional: new DirectionalLight(this, 10, 6, 4, new THREE.Vector3)
         };
     }
+
+    rayCast(screenPosition, objects) {
+        let normalizedPosition = new THREE.Vector2();
+        normalizedPosition.x = (screenPosition.x / window.innerWidth) * 2 - 1;
+        normalizedPosition.y = -(screenPosition.y / window.innerHeight) * 2 + 1;
+        let rayCaster = new THREE.Raycaster();
+        rayCaster.setFromCamera(normalizedPosition, this.camera);
+        return rayCaster.intersectObjects(objects);
+    }
 }
