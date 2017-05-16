@@ -6,6 +6,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ScrollView;
 
@@ -13,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     private View spiderLayout;
     private ScrollView diagnosticsLayout;
-    private View liveStreamLayout;
+    private FrameLayout liveStreamLayout;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -54,12 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.getMenu().getItem(1).setChecked(true);
+        navigation.getMenu().getItem(2).setChecked(true);
 
         spiderLayout = findViewById(R.id.spider_layout);
         diagnosticsLayout = (ScrollView) findViewById(R.id.diagnostics_container);
-        liveStreamLayout = findViewById(R.id.live_stream_layout);
+        liveStreamLayout = (FrameLayout)findViewById(R.id.live_stream_layout);
 
+        //Diagnostics screen
         DiagnosticsScreen diagnostics = new DiagnosticsScreen(getApplicationContext(), 2);
         diagnosticsLayout.addView(diagnostics);
         diagnostics.setBattery(97);
@@ -68,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
         diagnostics.setVolt(3.3f);
         diagnostics.setLoad(40);
 
-        showLayout(R.id.navigation_diagnostics);
+        //Live stream screen
+        WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
+        streamViewer.loadUrl("https://ruurdbijlsma.github.io/KnightSpider/");
+
+        showLayout(R.id.navigation_live_stream);
     }
 }

@@ -22,13 +22,17 @@
 
         </GridLayout>
 
-        <GridLayout
+        <FrameLayout
             android:id="@+id/live_stream_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:columnCount="1">
 
-        </GridLayout>
+            <WebView
+                android:id="@+id/stream_viewer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
 
         <ScrollView
             android:id="@+id/diagnostics_container"
