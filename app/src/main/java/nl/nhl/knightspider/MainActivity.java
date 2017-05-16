@@ -1,15 +1,25 @@
 package nl.nhl.knightspider;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.JsonReader;
+import android.util.JsonToken;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
@@ -18,14 +28,11 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout liveStreamLayout;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             return showLayout(item.getItemId());
         }
-
     };
-    private GridLayout gridLayout;
 
     private void hideLayouts() {
         spiderLayout.setVisibility(View.GONE);
@@ -49,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    WebView spiderViewer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         spiderLayout = findViewById(R.id.spider_layout);
         diagnosticsLayout = (ScrollView) findViewById(R.id.diagnostics_container);
-        liveStreamLayout = (FrameLayout)findViewById(R.id.live_stream_layout);
+        liveStreamLayout = (FrameLayout) findViewById(R.id.live_stream_layout);
 
         //Diagnostics screen
         DiagnosticsScreen diagnostics = new DiagnosticsScreen(getApplicationContext(), 2);
@@ -71,10 +80,54 @@ public class MainActivity extends AppCompatActivity {
         diagnostics.setVolt(3.3f);
         diagnostics.setLoad(40);
 
-        //Live stream screen
-        WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
-        streamViewer.loadUrl("https://ruurdbijlsma.github.io/KnightSpider/");
+        //Spider 3D stream screen
+        spiderViewer = (WebView) findViewById(R.id.stream_viewer);
+        spiderViewer.getSettings().setJavaScriptEnabled(true);
+        WebInterface webInterface = new WebInterface(this);
+        spiderViewer.getSettings().setAppCacheEnabled(false);
+        spiderViewer.getSettings().setAllowContentAccess(true);
 
+        spiderViewer.loadUrl("http://ruurdbijlsma.com/SpiderDiagnostics/");
+        spiderViewer.addJavascriptInterface(webInterface, "android");
+
+        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                evaluateJavascript("java('ping')");
+            }
+        });
         showLayout(R.id.navigation_live_stream);
+    }
+
+    public void evaluateJavascript(String javascript) {
+        spiderViewer.evaluateJavascript(javascript, new ValueCallback<String>() {
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+            @Override
+            public void onReceiveValue(String s) {
+                JsonReader reader = new JsonReader(new StringReader(s));
+
+                // Must set lenient to parse single values
+                reader.setLenient(true);
+
+                try {
+                    if (reader.peek() != JsonToken.NULL) {
+                        if (reader.peek() == JsonToken.STRING) {
+                            String msg = reader.nextString();
+                            if (msg != null) {
+                                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    Log.e("TAG", "MainActivity: IOException", e);
+                } finally {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        // NOOP
+                    }
+                }
+            }
+        });
     }
 }
