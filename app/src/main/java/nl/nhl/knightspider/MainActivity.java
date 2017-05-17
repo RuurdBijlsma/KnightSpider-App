@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.StringReader;
-
+///// TODO: 17-May-17 Info panel in spider tab zetten als je op link klikt in javascript
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     private View spiderLayout;
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         navigation.getMenu().getItem(1).setChecked(true);
-        showLayout(R.id.diagnostics_container);
+        showLayout(R.id.navigation_diagnostics);
     }
 
     public void evaluateJavascript(String javascript) {
