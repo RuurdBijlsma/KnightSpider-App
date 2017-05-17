@@ -7,31 +7,37 @@ class Spider extends THREE.Group {
             position: new THREE.Vector3(12, 0, 13.5), //front right
             rotation: Utils.deg2rad(340),
             color: new THREE.Color(0, 255, 255),
+            motorIds: [1, 2, 3]
         }, {
             position: new THREE.Vector3(-12, 0, 13.5), //front left
             rotation: Utils.deg2rad(200),
             color: new THREE.Color(255, 0, 255),
+            motorIds: [4, 5, 6]
         }, {
             position: new THREE.Vector3(-15, 0, 0), //mid left
             rotation: Utils.deg2rad(180),
             color: new THREE.Color(255, 255, 0),
+            motorIds: [7, 8, 9]
         }, {
             position: new THREE.Vector3(-12, 0, -13.5), //back left
             rotation: Utils.deg2rad(160),
             color: new THREE.Color(0, 0, 255),
+            motorIds: [10, 11, 12]
         }, {
             position: new THREE.Vector3(12, 0, -13.5), //back right
             rotation: Utils.deg2rad(20),
             color: new THREE.Color(255, 0, 0),
+            motorIds: [13, 14, 15]
         }, {
             position: new THREE.Vector3(15, 0, 0), //mid right
             rotation: Utils.deg2rad(0),
             color: new THREE.Color(0, 255, 0),
+            motorIds: [16, 17, 18]
         }];
 
         this.legs = [];
         for (let position of legPositions) {
-            let leg = new Leg();
+            let leg = new Leg(position.motorIds);
 
             this.legs.push(leg);
             // let cube = new Cube(this.body, position.position.x, position.position.y, position.position.z, 5, 1, 1, position.color);
@@ -50,8 +56,24 @@ class Spider extends THREE.Group {
         for (let leg of this.legs) {
             let clickedJoint = leg.getClickedJoint(screenPosition);
             if (clickedJoint.length > 0) {
-                return clickedJoint[0].object;
+                return {
+                    leg: leg,
+                    linkName: clickedJoint[0].object.name
+                }
             }
         }
+    }
+
+    deselectAll(){
+        for (let leg of this.legs) {
+            for (let link of leg.links) {
+                link.mesh.material.color = deselectedColor;
+            }
+        }
+    }
+
+    select(leg, linkName) {
+    	this.deselectAll();
+        leg[linkName].mesh.material.color = selectedColor;
     }
 }

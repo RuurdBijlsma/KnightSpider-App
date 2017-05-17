@@ -1,3 +1,7 @@
+const bodyType = 1;
+const selectedColor = new THREE.Color(1, 1, 0);
+const deselectedColor = new THREE.Color(1, 1, 1);
+
 class Main {
     constructor() {
         this.loop = new GameLoop(120);
@@ -6,7 +10,10 @@ class Main {
 
         document.addEventListener('click', e => {
             let joint = this.view.spider.getClickedJoint(new THREE.Vector2(e.pageX, e.pageY));
-            console.log(joint);
+            if (joint)
+                this.view.spider.select(joint.leg, joint.linkName);
+            else
+                this.view.spider.deselectAll();
         });
     }
 

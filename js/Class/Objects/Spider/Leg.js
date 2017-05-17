@@ -1,14 +1,20 @@
 class Leg extends THREE.Group {
-    constructor() {
+    constructor(motorIds) {
         super();
         this.gammaJoint = new Joint();
-        this.coxa = new Link('models/coxa.obj', 'img/textures/metal.jpg', 8);
+        this.coxa = new Link(`models/${bodyType}/coxa.obj`, 'img/textures/metal.jpg', 8);
         this.alphaJoint = new Joint();
-        this.femur = new Link('models/femur.obj', 'img/textures/metal.jpg', 8);
+        this.femur = new Link(`models/${bodyType}/femur.obj`, 'img/textures/metal.jpg', 8);
         this.betaJoint = new Joint();
-        this.tibia = new Link('models/tibia.obj', 'img/textures/metal.jpg', 12);
+        this.tibia = new Link(`models/${bodyType}/tibia.obj`, 'img/textures/metal.jpg', 12);
 
         this.links = [this.coxa, this.femur, this.tibia];
+
+        this.motorIds = {
+            coxa: motorIds[0],
+            femur: motorIds[1],
+            tibia: motorIds[2]
+        }
 
         let toLoad = 3;
         for (let link of this.links) {
@@ -52,5 +58,13 @@ class Leg extends THREE.Group {
     getClickedJoint(screenPosition) {
         let meshes = this.links.map(l => l.mesh);
         return MAIN.view.rayCast(screenPosition, meshes);
+    }
+
+    getLinkById(id) {
+        for (let link in this.motorIds) {
+            if (id == this1.motorIds[link]) {
+                return this[link];
+            }
+        }
     }
 }
