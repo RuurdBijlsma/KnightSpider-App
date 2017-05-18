@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/KnightSpider.iml" filepath="$PROJECT_DIR$/KnightSpider.iml" />
+      <module fileurl="file://C:\Users\ruurd\AndroidStudioProjects\KnightSpider-App\KnightSpider.iml" filepath="C:\Users\ruurd\AndroidStudioProjects\KnightSpider-App\KnightSpider.iml" />
       <module fileurl="file://$PROJECT_DIR$/KnightSpider-App.iml" filepath="$PROJECT_DIR$/KnightSpider-App.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

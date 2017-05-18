@@ -84,6 +84,7 @@ public class DiagnosticsScreen extends LinearLayout {
         textView.setText(text);
         textView.setTypeface(Typeface.MONOSPACE);
         textView.setTextSize(32);
+        textView.setTextColor(Color.argb(240, 0, 0, 0));
         int padding = dpToPx(15);
         textView.setPadding(padding, padding, padding, padding);
         return textView;

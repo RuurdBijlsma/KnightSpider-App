@@ -14,6 +14,7 @@ import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     private View spiderLayout;
     private ScrollView diagnosticsLayout;
-    private FrameLayout liveStreamLayout;
+    private LinearLayout liveStreamLayout;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         spiderLayout = findViewById(R.id.spider_layout);
         diagnosticsLayout = (ScrollView) findViewById(R.id.diagnostics_container);
-        liveStreamLayout = (FrameLayout) findViewById(R.id.live_stream_layout);
+        liveStreamLayout = (LinearLayout) findViewById(R.id.live_stream_layout);
 
         //Diagnostics screen
         DiagnosticsScreen diagnostics = new DiagnosticsScreen(getApplicationContext(), 2);
@@ -80,8 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Live stream screen
         WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
-        streamViewer.getSettings().setJavaScriptEnabled(true);
-        streamViewer.loadUrl("http://141.252.212.180:5000");
+//        streamViewer.getSettings().setJavaScriptEnabled(true);
+        streamViewer.loadUrl("http://141.252.208.61:5000");
+        WebView redditViewer = (WebView) findViewById(R.id.reddit_viewer);
+        redditViewer.getSettings().setJavaScriptEnabled(true);
+        redditViewer.loadUrl("https://ruurdbijlsma.github.io/KnightSpider/blog.html");
 
         //Spider 3D stream screen
         spiderViewer = (WebView) findViewById(R.id.spider_viewer);

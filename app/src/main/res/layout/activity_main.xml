@@ -78,7 +78,8 @@
             </LinearLayout>
         </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/live_stream_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -87,9 +88,17 @@
             <WebView
                 android:id="@+id/stream_viewer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
-        </FrameLayout>
+                android:layout_height="310dp"
+                android:visibility="visible">
+
+            </WebView>
+
+            <WebView
+                android:id="@+id/reddit_viewer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
 
         <ScrollView
             android:id="@+id/diagnostics_container"
