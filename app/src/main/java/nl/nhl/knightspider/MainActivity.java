@@ -13,13 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Timer;
+import java.util.TimerTask;
+
 ///// TODO: 17-May-17 Info panel in spider tab zetten als je op link klikt in javascript
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
@@ -105,6 +107,39 @@ public class MainActivity extends AppCompatActivity {
 
         navigation.getMenu().getItem(1).setChecked(true);
         showLayout(R.id.navigation_diagnostics);
+
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+//                String ip = Utils.getIPAddress(true);
+//                int port = 4000;
+//                SocketServer server = new SocketServer(new InetSocketAddress(ip, port));
+//
+//                server.start();
+                String ip = "141.252.228.164";
+                int port = 7894;
+                final int updateInterval = 1000;
+                try {
+                    Connection c = new Connection(ip, port) {
+                        @Override
+                        public void onMessage(String message) {
+                            Log.d("SOCKET", "RECEIVED: " + message);
+                            Timer t = new Timer();
+                            t.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    send("servo");
+                                }
+                            }, updateInterval);
+                        }
+                    };
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 
     public void evaluateJavascript(String javascript) {
