@@ -5,6 +5,6 @@ function init() {
     MAIN.startGame();
 }
 
-function java(ping) {
-    return ping + " van javascript";
+function send(message) {
+    return "ping from javascript " + message;
 }

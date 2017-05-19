@@ -1,4 +1,4 @@
-package nl.nhl.knightspider;
+package nl.nhl.knightspider.Pages;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,6 +7,9 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import nl.nhl.knightspider.InfoCard;
+import nl.nhl.knightspider.R;
 
 /**
  * Created by ruurd on 16-May-17.
