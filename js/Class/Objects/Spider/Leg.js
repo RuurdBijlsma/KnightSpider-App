@@ -14,7 +14,7 @@ class Leg extends THREE.Group {
             coxa: motorIds[0],
             femur: motorIds[1],
             tibia: motorIds[2]
-        }
+        };
 
         let toLoad = 3;
         for (let link of this.links) {
@@ -62,7 +62,7 @@ class Leg extends THREE.Group {
 
     getLinkById(id) {
         for (let link in this.motorIds) {
-            if (id == this1.motorIds[link]) {
+            if (id === this1.motorIds[link]) {
                 return this[link];
             }
         }

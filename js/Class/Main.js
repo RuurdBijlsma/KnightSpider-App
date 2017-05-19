@@ -10,8 +10,11 @@ class Main {
 
         document.addEventListener('click', e => {
             let joint = this.view.spider.getClickedJoint(new THREE.Vector2(e.pageX, e.pageY));
-            if (joint)
+            if (joint) {
                 this.view.spider.select(joint.leg, joint.linkName);
+                let id = joint.leg.motorIds[joint.linkName];
+                android.send(id)
+            }
             else
                 this.view.spider.deselectAll();
         });
