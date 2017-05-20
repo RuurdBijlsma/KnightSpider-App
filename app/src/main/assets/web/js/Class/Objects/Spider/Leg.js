@@ -2,11 +2,14 @@ class Leg extends THREE.Group {
     constructor(motorIds) {
         super();
         this.gammaJoint = new Joint();
-        this.coxa = new Link(`models/${bodyType}/coxa.obj`, 'img/textures/metal.jpg', 8);
+        // this.coxa = new Link(`models/${bodyType}/coxa.obj`, 'img/textures/metal.jpg', 28.7);
+        this.coxa = new Link(`models/${bodyType}/coxa.obj`, 'img/textures/metal.jpg', 28.7);
         this.alphaJoint = new Joint();
-        this.femur = new Link(`models/${bodyType}/femur.obj`, 'img/textures/metal.jpg', 8);
+        // this.femur = new Link(`models/${bodyType}/femur.obj`, 'img/textures/metal.jpg', 30);
+        this.femur = new Link(`models/${bodyType}/femur.obj`, 'img/textures/metal.jpg', -29);
         this.betaJoint = new Joint();
-        this.tibia = new Link(`models/${bodyType}/tibia.obj`, 'img/textures/metal.jpg', 12);
+        // this.tibia = new Link(`models/${bodyType}/tibia.obj`, 'img/textures/metal.jpg', 45);
+        this.tibia = new Link(`models/${bodyType}/tibia.obj`, 'img/textures/metal.jpg', 77);
 
         this.links = [this.coxa, this.femur, this.tibia];
 

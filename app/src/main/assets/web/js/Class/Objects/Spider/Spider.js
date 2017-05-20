@@ -4,32 +4,32 @@ class Spider extends THREE.Group {
         this.body = new Body();
         //20, 160, 180, 200, 340, 0
         let legPositions = [{
-            position: new THREE.Vector3(12, 0, 13.5), //front right
-            rotation: Utils.deg2rad(340),
+            position: new THREE.Vector3(30.7, 0, 42.4), //front right
+            rotation: Utils.deg2rad(330),
             color: new THREE.Color(0, 255, 255),
             motorIds: [1, 2, 3]
         }, {
-            position: new THREE.Vector3(-12, 0, 13.5), //front left
-            rotation: Utils.deg2rad(200),
+            position: new THREE.Vector3(-30.7, 0, 42.4), //front left
+            rotation: Utils.deg2rad(210),
             color: new THREE.Color(255, 0, 255),
             motorIds: [4, 5, 6]
         }, {
-            position: new THREE.Vector3(-15, 0, 0), //mid left
+            position: new THREE.Vector3(-37, 0, 0), //mid left
             rotation: Utils.deg2rad(180),
             color: new THREE.Color(255, 255, 0),
             motorIds: [7, 8, 9]
         }, {
-            position: new THREE.Vector3(-12, 0, -13.5), //back left
-            rotation: Utils.deg2rad(160),
+            position: new THREE.Vector3(-30.7, 0, -42.4), //back left
+            rotation: Utils.deg2rad(150),
             color: new THREE.Color(0, 0, 255),
             motorIds: [10, 11, 12]
         }, {
-            position: new THREE.Vector3(12, 0, -13.5), //back right
-            rotation: Utils.deg2rad(20),
+            position: new THREE.Vector3(30.7, 0, -42.4), //back right
+            rotation: Utils.deg2rad(30),
             color: new THREE.Color(255, 0, 0),
             motorIds: [13, 14, 15]
         }, {
-            position: new THREE.Vector3(15, 0, 0), //mid right
+            position: new THREE.Vector3(37, 0, 0), //mid right
             rotation: Utils.deg2rad(0),
             color: new THREE.Color(0, 255, 0),
             motorIds: [16, 17, 18]

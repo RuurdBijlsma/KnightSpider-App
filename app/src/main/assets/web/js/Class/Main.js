@@ -13,7 +13,9 @@ class Main {
             if (joint) {
                 this.view.spider.select(joint.leg, joint.linkName);
                 let id = joint.leg.motorIds[joint.linkName];
-                android.send(id)
+                console.log(joint.leg[joint.linkName]);
+                if (typeof android !== 'undefined')
+                    android.send(id)
             }
             else
                 this.view.spider.deselectAll();
