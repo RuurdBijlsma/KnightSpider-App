@@ -1,21 +1,16 @@
 class ObjMesh {
     constructor(objUrl, textureUrl, textureScale = 10, castShadow = false, receiveShadow = true, bump = true, bumpScale = 0.02) {
-        let textureLoader = new THREE.TextureLoader(),
-            map = textureLoader.load(textureUrl),
-            materialSettings = bump ? {
-                map: map,
-                bumpMap: map,
-                bumpScale: bumpScale
-            } : {
-                map: map
-            },
-            material = new THREE.MeshPhongMaterial(materialSettings),
-            objLoader = new THREE.OBJLoader();
+        let map = Loader.getTextureMap(textureUrl, textureScale);
+        let materialSettings = bump ? {
+            map: map,
+            bumpMap: map,
+            bumpScale: bumpScale
+        } : {
+            map: map
+        };
+        let material = new THREE.MeshPhongMaterial(materialSettings);
 
-        map.repeat.set(textureScale, textureScale);
-        map.wrapS = map.wrapT = THREE.RepeatWrapping;
-
-        objLoader.load(objUrl, object => {
+        Loader.getObjMesh(objUrl, material).then(object => {
             this.object = object;
             this.mesh = object.children[0];
             this.mesh.receiveShadow = receiveShadow;
@@ -24,6 +19,7 @@ class ObjMesh {
             this.onload(object);
         });
 
-        this.onload = () => {}
+        this.onload = () => {
+        }
     }
 }
