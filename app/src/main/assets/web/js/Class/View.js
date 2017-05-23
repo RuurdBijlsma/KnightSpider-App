@@ -1,8 +1,8 @@
 class View extends Scene {
     constructor(renderElement, main) {
         super(renderElement, main);
-        this.camera.position.set(-0.5, 50, -14);
-        this.camera.rotation.set(-1.85, 0, -3.117)
+        this.camera.position.set(-80.91068146283502, 166.43753086645592, -310.7409529606531);
+        this.camera.rotation.set(-2.5107914157222195, -0.16706760816999697, -3.020734777520994)
 
         this.controls = new THREE.OrbitControls(this.camera, this.renderElement);
 

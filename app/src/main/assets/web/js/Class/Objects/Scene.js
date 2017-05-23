@@ -28,11 +28,12 @@ class Scene extends THREE.Scene {
         this.render();
     }
 
-    render() {
+    render(time) {
+        requestAnimationFrame(t => this.render(t));
         // this.stats.begin();
         this.renderer.render(this, this.camera);
+        TWEEN.update(time);
         // this.stats.end();
-        requestAnimationFrame(() => this.render());
     }
 
     onWindowResize() {

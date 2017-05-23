@@ -30,6 +30,7 @@ public class DiagnosticsScreen extends LinearLayout {
     private InfoCard tempCard;
     private InfoCard voltCard;
     private InfoCard loadCard;
+    private InfoCard cpuCard;
 
     public void addContent(int cardsPerRow) {
         DisplayMetrics metrics = getDisplayMetrics();
@@ -38,8 +39,10 @@ public class DiagnosticsScreen extends LinearLayout {
         batteryCard = new InfoCard(this.getContext(), darkColor, R.drawable.batteryicon, halfWidth, dpToPx(150));
         gyroCard = new InfoCard(this.getContext(), darkColor, R.drawable.gyroicon, halfWidth, dpToPx(150));
         tempCard = new InfoCard(this.getContext(), darkColor, R.drawable.tempicon, halfWidth, dpToPx(150));
-        voltCard = new InfoCard(this.getContext(), darkColor, R.drawable.volticon, halfWidth, dpToPx(150));
-        loadCard = new InfoCard(this.getContext(), darkColor, R.drawable.loadicon, halfWidth, dpToPx(150));
+        tempCard = new InfoCard(this.getContext(), darkColor, R.drawable.tempicon, halfWidth, dpToPx(150));
+        cpuCard = new InfoCard(this.getContext(), darkColor, R.drawable.cpuicon, halfWidth, dpToPx(150));
+//        voltCard = new InfoCard(this.getContext(), darkColor, R.drawable.volticon, halfWidth, dpToPx(150));
+//        loadCard = new InfoCard(this.getContext(), darkColor, R.drawable.loadicon, halfWidth, dpToPx(150));
 
 
         setOrientation(LinearLayout.VERTICAL);
@@ -48,18 +51,20 @@ public class DiagnosticsScreen extends LinearLayout {
 
         InfoCard[] spiderCards = {
                 batteryCard,
-                gyroCard
+                gyroCard,
+                cpuCard,
+                tempCard
         };
         addCards(spiderCards, cardsPerRow);
 
-        addView(getBigText("Servo diagnostiek"));
+//        addView(getBigText("Servo diagnostiek"));
 
         InfoCard[] servoCards = {
                 tempCard,
                 voltCard,
                 loadCard
         };
-        addCards(servoCards, cardsPerRow);
+//        addCards(servoCards, cardsPerRow);
     }
 
     private void addCards(InfoCard[] cards, int cardsPerRow) {
@@ -113,6 +118,10 @@ public class DiagnosticsScreen extends LinearLayout {
         getLoadCard().setText("Belasting " + value + "g");
     }
 
+    public void setCpu(float value) {
+        getCpuCard().setText("CPU " + value + "%");
+    }
+
     public InfoCard getBatteryCard() {
         return batteryCard;
     }
@@ -131,5 +140,9 @@ public class DiagnosticsScreen extends LinearLayout {
 
     public InfoCard getLoadCard() {
         return loadCard;
+    }
+
+    public InfoCard getCpuCard() {
+        return cpuCard;
     }
 }

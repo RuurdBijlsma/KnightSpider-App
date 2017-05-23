@@ -1,4 +1,4 @@
-const bodyType = 1;
+const bodyType = 4;
 const selectedColor = new THREE.Color(1, 1, 0);
 const deselectedColor = new THREE.Color(1, 1, 1);
 

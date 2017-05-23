@@ -77,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
         diagnostics.setBattery(97);
         diagnostics.setGyro(20);
         diagnostics.setTemp(32);
-        diagnostics.setVolt(3.3f);
-        diagnostics.setLoad(40);
+//        diagnostics.setVolt(3.3f);
+//        diagnostics.setLoad(40);
+        diagnostics.setCpu(1.1f);
 
         //Live stream screen
         WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
