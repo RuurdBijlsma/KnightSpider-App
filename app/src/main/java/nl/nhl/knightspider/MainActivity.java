@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Live stream screen
         WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
-        streamViewer.loadUrl("http://141.252.208.61:5000");
+        streamViewer.loadUrl("http://141.252.240.172:5000");
         //Blog screen
         WebView blogViewer = (WebView) findViewById(R.id.blog_viewer);
         blogViewer.getSettings().setJavaScriptEnabled(true);
