@@ -45,7 +45,7 @@ public class SpiderView extends WebView {
                 showServoInfo(Integer.parseInt(message));
             }
         };
-        loadUrl("file:///android_asset/web/index.html");
+        loadUrl("file:///android_asset/web/index.html#engage");
     }
 
     private void showServoInfo(int servoId) {

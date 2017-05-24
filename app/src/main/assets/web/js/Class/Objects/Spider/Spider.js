@@ -64,7 +64,7 @@ class Spider extends THREE.Group {
         }
     }
 
-    deselectAll(){
+    deselectAll() {
         for (let leg of this.legs) {
             for (let link of leg.links) {
                 link.mesh.material.color = deselectedColor;
@@ -75,5 +75,28 @@ class Spider extends THREE.Group {
     select(leg, linkName) {
         this.deselectAll();
         leg[linkName].mesh.material.color = selectedColor;
+    }
+
+    engage() {
+        for (let leg of this.legs) {
+            leg.animate('alpha', Utils.deg2rad(50), 1500)
+            leg.animate('beta', Utils.deg2rad(-120), 1500)
+        }
+    }
+
+    shutdown() {
+        for (let leg of this.legs) {
+            leg.animate('alpha', Utils.deg2rad(130), 1500)
+            leg.animate('beta', Utils.deg2rad(-160), 1500)
+        }
+    }
+
+    flat(){
+        for (let leg of this.legs) {
+            leg.animate('gamma', Utils.deg2rad(0), 1500)
+            leg.animate('alpha', Utils.deg2rad(0), 1500)
+            leg.animate('beta', Utils.deg2rad(0), 1500)
+        }
+
     }
 }

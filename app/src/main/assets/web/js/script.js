@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
     MAIN = new Main();
     MAIN.startGame();
+
+    if (location.hash == '#shutdown')
+        MAIN.view.spider.engage();
+    else if (location.hash === '#engage')
+        MAIN.view.spider.engage();
 }
 
 function send(message) {
