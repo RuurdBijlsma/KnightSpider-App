@@ -1,5 +1,6 @@
 package nl.nhl.knightspider;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,9 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
+import nl.nhl.knightspider.Communication.Connection;
 import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
 
@@ -59,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     WebView spiderViewer;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,25 +107,21 @@ public class MainActivity extends AppCompatActivity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                String ip = "141.252.228.164";
-                int port = 7894;
+                String jornLaptop = "141.252.229.227";
+                String spin = "141.252.240.172";
+                String ip = spin;
+                int port = 4980;
                 final int updateInterval = 1000;
                 try {
+                    Log.d("SOCKET", "creating connection");
                     Connection c = new Connection(ip, port) {
                         @Override
                         public void onMessage(String message) {
                             Log.d("SOCKET", "RECEIVED: " + message);
-                            Timer t = new Timer();
-                            t.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    send("servo");
-                                }
-                            }, updateInterval);
                         }
                     };
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.d("SOCKET", e.getMessage());
                 }
             }
         });

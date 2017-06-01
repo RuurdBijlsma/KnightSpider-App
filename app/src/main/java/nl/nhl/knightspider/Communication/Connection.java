@@ -1,4 +1,4 @@
-package nl.nhl.knightspider;
+package nl.nhl.knightspider.Communication;
 
 import android.util.Log;
 
@@ -19,12 +19,15 @@ public abstract class Connection {
 
     public Connection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
+        send("goeiedaai");
         while (true) {
             String out = readFromServer();
-            onMessage(out);
-            if (Objects.equals(out, "")) {
-                clientSocket.close();
-                break;
+            if (out != null) {
+                onMessage(out);
+                if (Objects.equals(out, "")) {
+                    clientSocket.close();
+                    break;
+                }
             }
         }
     }
