@@ -1,6 +1,10 @@
 package nl.nhl.knightspider;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.*;
 import java.util.*;
 //import org.apache.http.conn.util.InetAddressUtils;
@@ -92,7 +96,7 @@ public class Utils {
 
     /**
      * Get IP address from first non-localhost interface
-     * @param ipv4  true=return ipv4, false=return ipv6
+     * @param useIPv4  true=return ipv4, false=return ipv6
      * @return  address or empty string
      */
     public static String getIPAddress(boolean useIPv4) {
@@ -120,6 +124,17 @@ public class Utils {
             }
         } catch (Exception ex) { } // for now eat exceptions
         return "";
+    }
+
+    public static HashMap<Integer,Float> parseAngles(String json) {
+        Gson gson = new Gson();
+        Type mapType = new TypeToken<HashMap<Integer,Float>>(){}.getType();
+        try {
+            return gson.fromJson(json, mapType);
+        }
+        catch(Exception e) {
+            return null;
+        }
     }
 
 }

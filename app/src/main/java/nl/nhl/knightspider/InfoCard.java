@@ -41,7 +41,7 @@ public class InfoCard extends CardView {
 
         textView = new TextView(context);
         textView.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-        textView.setTextSize(20);
+        textView.setTextSize(18);
         textView.setPadding(textPadding, textPadding, textPadding, textPadding);
 
         imageView = new ImageView(context);

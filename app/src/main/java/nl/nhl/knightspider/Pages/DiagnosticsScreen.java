@@ -102,11 +102,11 @@ public class DiagnosticsScreen extends LinearLayout {
         getBatteryCard().setText("Batterij " + value + "%");
     }
 
-    public void setGyro(int value) {
+    public void setGyro(float value) {
         getGyroCard().setText("Helling " + value + "°");
     }
 
-    public void setTemp(int value) {
+    public void setTemp(float value) {
         getTempCard().setText("Temperatuur " + value + "°");
     }
 

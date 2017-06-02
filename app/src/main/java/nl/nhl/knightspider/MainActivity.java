@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import nl.nhl.knightspider.Communication.Connection;
+import nl.nhl.knightspider.Communication.SpiderInfo;
 import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
 
@@ -21,7 +22,11 @@ import nl.nhl.knightspider.Pages.SpiderView;
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     private LinearLayout spiderLayout;
+
     private ScrollView diagnosticsLayout;
+    private DiagnosticsScreen diagnosticsScreen;
+    private SpiderView spiderView;
+
     private LinearLayout liveStreamLayout;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -30,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
             return showLayout(item.getItemId());
         }
     };
+
+    public SpiderView getSpiderView() {
+        return spiderView;
+    }
+
+    public DiagnosticsScreen getDiagnosticsScreen() {
+        return diagnosticsScreen;
+    }
 
     private void hideLayouts() {
         spiderLayout.setVisibility(View.GONE);
@@ -72,14 +85,14 @@ public class MainActivity extends AppCompatActivity {
         liveStreamLayout = (LinearLayout) findViewById(R.id.live_stream_layout);
 
         //Diagnostics screen
-        final DiagnosticsScreen diagnostics = new DiagnosticsScreen(getApplicationContext(), 2);
-        diagnosticsLayout.addView(diagnostics);
-        diagnostics.setBattery(97);
-        diagnostics.setGyro(20);
-        diagnostics.setTemp(32);
-//        diagnostics.setVolt(3.3f);
-//        diagnostics.setLoad(40);
-        diagnostics.setCpu(1.1f);
+        diagnosticsScreen = new DiagnosticsScreen(getApplicationContext(), 2);
+        diagnosticsLayout.addView(diagnosticsScreen);
+        diagnosticsScreen.setBattery(97);
+        diagnosticsScreen.setGyro(20);
+        diagnosticsScreen.setTemp(32);
+//        diagnosticsScreen.setVolt(3.3f);
+//        diagnosticsScreen.setLoad(40);
+        diagnosticsScreen.setCpu(1.1f);
 
         //Live stream screen
         WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
@@ -90,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         blogViewer.loadUrl("https://ruurdbijlsma.github.io/KnightSpider/blog.html");
 
         //Spider 3D stream screen
-        final SpiderView spiderView = new SpiderView(getApplicationContext(),
+        spiderView = new SpiderView(getApplicationContext(),
                 (TextView) findViewById(R.id.servo_id),
                 (TextView) findViewById(R.id.servo_temp),
                 (TextView) findViewById(R.id.servo_angle),
@@ -103,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
 
         showLayout(R.id.navigation_diagnostics);
 
+        SpiderInfo spinfo = SpiderInfo.fromJson("{\"slope\": 20, \"cpuTemperature\": 46.7, \"battery\": 200, \"cpuUsage\": 5.0}");
+        Log.d("JSON", spinfo.toString());
+
+        MainActivity that = this;
+
         //Connect socket client to server
         Thread t = new Thread(new Runnable() {
             @Override
@@ -114,12 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 final int updateInterval = 1000;
                 try {
                     Log.d("SOCKET", "creating connection");
-                    Connection c = new Connection(ip, port) {
-                        @Override
-                        public void onMessage(String message) {
-                            Log.d("SOCKET", "RECEIVED: " + message);
-                        }
-                    };
+                    Connection c = new Connection(ip, port, that);
                 } catch (Exception e) {
                     Log.d("SOCKET", e.getMessage());
                 }
