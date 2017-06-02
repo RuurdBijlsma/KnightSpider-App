@@ -76,7 +76,7 @@ class Spider extends THREE.Group {
             let joint = this.getJointById(id);
             if (joint.joint === 'beta')
                 angle *= -1
-            joint.leg.animate(joint.joint, angle);
+            joint.leg.animate(joint.joint, angle, 400);
         }
     }
 
