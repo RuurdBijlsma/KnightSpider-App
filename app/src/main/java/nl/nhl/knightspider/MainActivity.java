@@ -115,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
         spiderView.setAngle(23);
         spiderView.setLoad(50);
 
-        spiderView.setOnServoInfoRequestedCallback((a) -> Log.d("CONSOLE", String.valueOf(a)));
-
-
         showLayout(R.id.navigation_diagnostics);
         int Ĳ = 4;
         SpiderInfo spinfo = SpiderInfo.fromJson("{\"slope\": 20, \"cpuTemperature\": 46.7, \"battery\": 200, \"cpuUsage\": 5.0}");

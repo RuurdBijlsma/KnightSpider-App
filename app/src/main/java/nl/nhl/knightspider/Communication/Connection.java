@@ -26,6 +26,9 @@ public class Connection {
 
     public Connection(String ip, int port, MainActivity activity) throws IOException {
         this.activity = activity;
+        this.activity.getSpiderView().setOnServoInfoRequestedCallback((id) -> {
+            send(new Message(Identifiers.GET_SERVO, String.valueOf(id)));
+        });
         clientSocket = new Socket(ip, port);
         while (true) {
             String out = readFromServer();
@@ -48,17 +51,28 @@ public class Connection {
         // TODO: Implement
         switch (message.getIdentifier()) {
             case Identifiers.ANGLES:
-                HashMap<Integer, Float> angles = Utils.parseAngles(message.getPayload());
-                if (angles == null) {
-                    return;
-                }
 
                 activity.runOnUiThread(() -> {
                     SpiderView spiderView = this.activity.getSpiderView();
+                    spiderView.setSpiderStanceFromJson(message.getPayload());
                 });
 
                 break;
             case Identifiers.SERVO:
+                Log.d("SOCKET", message.getPayload());
+                ServoReadings servoReadings = ServoReadings.fromJson(message.getPayload());
+                if (servoReadings == null) {
+                    return;
+                }
+
+                activity.runOnUiThread(() -> {
+                    SpiderView spiderView = activity.getSpiderView();
+                    spiderView.setServoId(servoReadings.getId());
+                    spiderView.setAngle(servoReadings.getPosition());
+                    spiderView.setLoad((int)servoReadings.getLoad());
+                    spiderView.setTemp(servoReadings.getTemperature());
+                    spiderView.setVoltage(servoReadings.getVoltage());
+                });
 
                 break;
             case Identifiers.SPIDER:
@@ -87,11 +101,12 @@ public class Connection {
         return modifiedSentence;
     }
 
-    public void send(String message) {
+    public void send(Message message) {
+        String stringMessage = message.toString();
         try {
-            Log.d("SOCKET", "SENT: " + message);
+            Log.d("SOCKET", "SENT: " + stringMessage);
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            bufferedWriter.write(message);
+            bufferedWriter.write(stringMessage);
             bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();

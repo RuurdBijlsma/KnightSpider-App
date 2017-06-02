@@ -80,7 +80,7 @@ public class SpiderView extends WebView {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getDisplayMetrics());
     }
 
-    public void setAngle(int angle) {
+    public void setAngle(float angle) {
         setAngleText("Hoek " + angle + "°");
     }
 
@@ -95,7 +95,7 @@ public class SpiderView extends WebView {
     public void setServoId(int id) {
         setIdText("Servo id: " + id);
     }
-    public void setServoVoltage(float voltage) {
+    public void setVoltage(float voltage) {
         setVoltageText("Voltage " + voltage);
     }
 

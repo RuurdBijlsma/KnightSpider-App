@@ -4,8 +4,9 @@ package nl.nhl.knightspider.Communication;
  * Created by jorn on 6/1/17.
  */
 
-public final class Identifiers {
-    public static final int ANGLES = 1;
-    public static final int SERVO = 2;
-    public static final int SPIDER = 3;
+final class Identifiers {
+    static final int ANGLES = 1;
+    static final int SERVO = 2;
+    static final int SPIDER = 3;
+    static final int GET_SERVO = 4;
 }

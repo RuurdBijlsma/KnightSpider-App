@@ -16,6 +16,11 @@ class Message {
         return payload;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%d::%s", getIdentifier(), getPayload());
+    }
+
     public Message(int identifier, String payload) {
         this.identifier = identifier;
         this.payload = payload;
