@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ public class SpiderView extends WebView {
     private TextView angleText;
     private TextView loadText;
 
-    public SpiderView(Context context, TextView servoId, TextView servoTemp, TextView servoAngle, TextView servoLoad) {
+    public SpiderView(Context context, TextView servoId, TextView servoTemp, TextView servoAngle, TextView servoLoad, ValueCallback<Integer> callback) {
         super(context);
 
         idText = servoId;
@@ -43,23 +44,19 @@ public class SpiderView extends WebView {
         javascript = new Javascript(this) {
             @Override
             public void onMessage(String message) {
-                onServoInfoRequested(Integer.parseInt(message));
+                callback.onReceiveValue(Integer.parseInt(message));
             }
         };
         loadUrl("file:///android_asset/web/index.html");
     }
 
-    public void setSpiderStanceFromJson(String json){
+    public void setSpiderStanceFromJson(String json) {
         javascript.send(json, new JavascriptCallback() {
             @Override
             public void onMessage(String result) {
                 Log.d("CONSOLE", result);
             }
         });
-    }
-
-    public void onServoInfoRequested(int servoId) {
-        setServoId(servoId);
     }
 
     public void send(String message, JavascriptCallback callback) {
