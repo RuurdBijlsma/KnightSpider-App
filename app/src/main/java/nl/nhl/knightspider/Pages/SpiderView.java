@@ -36,7 +36,7 @@ public class SpiderView extends WebView {
         loadText = servoLoad;
         voltageText = servoVoltage;
 
-        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(400)));
+        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(395)));
 
         getSettings().setAppCacheEnabled(false);
         getSettings().setAllowContentAccess(true);
@@ -95,8 +95,9 @@ public class SpiderView extends WebView {
     public void setServoId(int id) {
         setIdText("Servo id: " + id);
     }
+
     public void setVoltage(float voltage) {
-        setVoltageText("Voltage " + voltage);
+        setVoltageText("Voltage " + voltage + "V");
     }
 
     private void setIdText(String text) {
@@ -114,6 +115,7 @@ public class SpiderView extends WebView {
     private void setLoadText(String text) {
         loadText.setText(text);
     }
+
     private void setVoltageText(String text) {
         voltageText.setText(text);
     }
