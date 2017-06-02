@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -114,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         spiderView.setTemp(32);
         spiderView.setAngle(23);
         spiderView.setLoad(50);
+
+        spiderView.setOnServoInfoRequestedCallback((a) -> Log.d("CONSOLE", String.valueOf(a)));
 
 
         showLayout(R.id.navigation_diagnostics);

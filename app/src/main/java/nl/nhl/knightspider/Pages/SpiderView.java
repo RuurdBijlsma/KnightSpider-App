@@ -26,7 +26,7 @@ public class SpiderView extends WebView {
     private TextView angleText;
     private TextView loadText;
 
-    public SpiderView(Context context, TextView servoId, TextView servoTemp, TextView servoAngle, TextView servoLoad, ValueCallback<Integer> callback) {
+    public SpiderView(Context context, TextView servoId, TextView servoTemp, TextView servoAngle, TextView servoLoad) {
         super(context);
 
         idText = servoId;
@@ -41,13 +41,20 @@ public class SpiderView extends WebView {
         getSettings().setAllowFileAccess(true);
         getSettings().setAllowFileAccessFromFileURLs(true);
         getSettings().setAllowUniversalAccessFromFileURLs(true);
+        SpiderView view = this;
         javascript = new Javascript(this) {
             @Override
             public void onMessage(String message) {
-                callback.onReceiveValue(Integer.parseInt(message));
+                view.callback.onReceiveValue(Integer.parseInt(message));
             }
         };
         loadUrl("file:///android_asset/web/index.html");
+    }
+
+    private ValueCallback<Integer> callback;
+
+    public void setOnServoInfoRequestedCallback(ValueCallback<Integer> callback) {
+        this.callback = callback;
     }
 
     public void setSpiderStanceFromJson(String json) {
