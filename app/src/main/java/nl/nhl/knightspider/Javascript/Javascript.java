@@ -27,12 +27,6 @@ public abstract class Javascript {
 
     public void send(String message, final JavascriptCallback callback) {
         String javascript = "send('" + message + "')";
-        webView.evaluateJavascript(javascript, new ValueCallback<String>() {
-            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-            @Override
-            public void onReceiveValue(String s) {
-                callback.onMessage(s);
-            }
-        });
+        webView.evaluateJavascript(javascript, callback::onMessage);
     }
 }

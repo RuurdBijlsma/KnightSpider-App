@@ -7,32 +7,32 @@ class Spider extends THREE.Group {
             position: new THREE.Vector3(69.8, 0, 103.65), //front right
             rotation: Utils.deg2rad(330),
             color: new THREE.Color(0, 255, 255),
-            motorIds: [1, 2, 3]
+            motorIds: [41, 42, 43]
         }, {
             position: new THREE.Vector3(-70.8, 0, 104.12), //front left
             rotation: Utils.deg2rad(210),
             color: new THREE.Color(255, 0, 255),
-            motorIds: [4, 5, 6]
+            motorIds: [11, 12, 13]
         }, {
             position: new THREE.Vector3(-83, 0, 0), //mid left
             rotation: Utils.deg2rad(180),
             color: new THREE.Color(255, 255, 0),
-            motorIds: [7, 8, 9]
+            motorIds: [21, 22, 23]
         }, {
             position: new THREE.Vector3(-71.09, 0, -108.50), //back left
             rotation: Utils.deg2rad(150),
             color: new THREE.Color(0, 0, 255),
-            motorIds: [10, 11, 12]
+            motorIds: [31, 32, 33]
         }, {
             position: new THREE.Vector3(69.58, 0, -108.97), //back right
             rotation: Utils.deg2rad(30),
             color: new THREE.Color(255, 0, 0),
-            motorIds: [13, 14, 15]
+            motorIds: [61, 62, 63]
         }, {
             position: new THREE.Vector3(83, 0, 0), //mid right
             rotation: Utils.deg2rad(0),
             color: new THREE.Color(0, 255, 0),
-            motorIds: [16, 17, 18]
+            motorIds: [51, 52, 53]
         }];
 
         this.legs = [];
@@ -50,6 +50,34 @@ class Spider extends THREE.Group {
         }
 
         this.add(this.body);
+    }
+
+    getJointById(motorId) {
+        for (let leg of this.legs) {
+            for (let joint in leg.motorIds) {
+                let foundId = leg.motorIds[joint]
+                let dict = {
+                    'coxa': 'gamma',
+                    'femur': 'alpha',
+                    'tibia': 'beta',
+                }
+                if (foundId == motorId)
+                    return {
+                        leg: leg,
+                        joint: dict[joint]
+                    }
+            }
+        }
+    }
+
+    setStance(idToAngleDict) {
+        for (let id in idToAngleDict) {
+            let angle = Utils.deg2rad(idToAngleDict[id]);
+            let joint = this.getJointById(id);
+            if (joint.joint === 'beta')
+                angle *= -1
+            joint.leg.animate(joint.joint, angle);
+        }
     }
 
     getClickedJoint(screenPosition) {
@@ -91,7 +119,7 @@ class Spider extends THREE.Group {
         }
     }
 
-    flat(){
+    flat() {
         for (let leg of this.legs) {
             leg.animate('gamma', Utils.deg2rad(0), 1500)
             leg.animate('alpha', Utils.deg2rad(0), 1500)

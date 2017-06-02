@@ -4,6 +4,8 @@ function init() {
     MAIN = new Main();
     MAIN.startGame();
 
+    console.log('started');
+
     if (location.hash == '#shutdown')
         MAIN.view.spider.engage();
     else if (location.hash === '#engage')
@@ -11,7 +13,8 @@ function init() {
 }
 
 function send(message) {
-    return "ping from javascript " + message;
+    MAIN.view.spider.setStance(JSON.parse(message));
+    return "Settings stance";
 }
 
 function makechain() {

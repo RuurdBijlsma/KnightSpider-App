@@ -43,7 +43,7 @@ class Leg extends THREE.Group {
         }
     }
 
-    animate(link, targetAngle, duration) {
+    animate(link, targetAngle, duration = 1000) {
         return new Promise(resolve => {
             let startAngle = this[link];
             let update = (a, b, c, d, e) => {

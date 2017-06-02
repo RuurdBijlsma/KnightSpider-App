@@ -3,6 +3,7 @@ package nl.nhl.knightspider.Pages;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -42,13 +43,22 @@ public class SpiderView extends WebView {
         javascript = new Javascript(this) {
             @Override
             public void onMessage(String message) {
-                showServoInfo(Integer.parseInt(message));
+                onServoInfoRequested(Integer.parseInt(message));
             }
         };
-        loadUrl("file:///android_asset/web/index.html#engage");
+        loadUrl("file:///android_asset/web/index.html");
     }
 
-    private void showServoInfo(int servoId) {
+    public void setSpiderStanceFromJson(String json){
+        javascript.send(json, new JavascriptCallback() {
+            @Override
+            public void onMessage(String result) {
+                Log.d("CONSOLE", result);
+            }
+        });
+    }
+
+    public void onServoInfoRequested(int servoId) {
         setServoId(servoId);
     }
 

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -18,7 +19,6 @@ import nl.nhl.knightspider.Communication.SpiderInfo;
 import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
 
-///// TODO: 17-May-17 Info panel in spider tab zetten als je op link klikt in javascript
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     private LinearLayout spiderLayout;
@@ -108,11 +108,19 @@ public class MainActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.servo_temp),
                 (TextView) findViewById(R.id.servo_angle),
                 (TextView) findViewById(R.id.servo_load));
+//        spiderView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public void onPageFinished(WebView view, String url) {
+//                super.onPageFinished(view, url);
+//                spiderView.setSpiderStanceFromJson("{\"32\":12.02,\"33\":102.05,\"11\":17.6,\"41\":-18.48,\"42\":12.02,\"43\":102.05,\"12\":12.02,\"13\":102.64,\"51\":17.3,\"52\":12.02,\"53\":102.93,\"22\":11.44,\"23\":102.35,\"63\":102.64,\"21\":-18.48,\"61\":-18.77,\"62\":12.02,\"31\":17.6}");
+//            }
+//        });
         spiderLayout.addView(spiderView, 0);
         spiderView.setServoId(18);
         spiderView.setTemp(32);
         spiderView.setAngle(23);
         spiderView.setLoad(50);
+
 
         showLayout(R.id.navigation_diagnostics);
 
@@ -122,20 +130,16 @@ public class MainActivity extends AppCompatActivity {
         MainActivity that = this;
 
         //Connect socket client to server
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String jornLaptop = "141.252.229.227";
-                String spin = "141.252.240.172";
-                String ip = spin;
-                int port = 4980;
-                final int updateInterval = 1000;
-                try {
-                    Log.d("SOCKET", "creating connection");
-                    Connection c = new Connection(ip, port, that);
-                } catch (Exception e) {
-                    Log.d("SOCKET", e.getMessage());
-                }
+        Thread t = new Thread(() -> {
+            String jornLaptop = "141.252.229.227";
+            String spin = "141.252.240.172";
+            String ip = spin;
+            int port = 4980;
+            try {
+                Log.d("SOCKET", "creating connection");
+                Connection c = new Connection(ip, port, that);
+            } catch (Exception e) {
+                Log.d("SOCKET", e.getMessage());
             }
         });
         t.start();
