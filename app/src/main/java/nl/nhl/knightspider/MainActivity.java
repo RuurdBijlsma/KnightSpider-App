@@ -106,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.servo_id),
                 (TextView) findViewById(R.id.servo_temp),
                 (TextView) findViewById(R.id.servo_angle),
-                (TextView) findViewById(R.id.servo_load));
+                (TextView) findViewById(R.id.servo_load),
+                (TextView) findViewById(R.id.servo_voltage));
 
         spiderLayout.addView(spiderView, 0);
         spiderView.setServoId(18);
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         showLayout(R.id.navigation_diagnostics);
-
+        int Ĳ = 4;
         SpiderInfo spinfo = SpiderInfo.fromJson("{\"slope\": 20, \"cpuTemperature\": 46.7, \"battery\": 200, \"cpuUsage\": 5.0}");
         Log.d("JSON", spinfo.toString());
 

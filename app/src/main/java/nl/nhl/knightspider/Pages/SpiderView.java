@@ -25,14 +25,16 @@ public class SpiderView extends WebView {
     private TextView tempText;
     private TextView angleText;
     private TextView loadText;
+    private TextView voltageText;
 
-    public SpiderView(Context context, TextView servoId, TextView servoTemp, TextView servoAngle, TextView servoLoad) {
+    public SpiderView(Context context, TextView servoId, TextView servoTemp, TextView servoAngle, TextView servoLoad, TextView servoVoltage) {
         super(context);
 
         idText = servoId;
         tempText = servoTemp;
         angleText = servoAngle;
         loadText = servoLoad;
+        voltageText = servoVoltage;
 
         setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(400)));
 
@@ -93,20 +95,26 @@ public class SpiderView extends WebView {
     public void setServoId(int id) {
         setIdText("Servo id: " + id);
     }
+    public void setServoVoltage(float voltage) {
+        setIdText("Voltage " + voltage);
+    }
 
-    public void setIdText(String text) {
+    private void setIdText(String text) {
         idText.setText(text);
     }
 
-    public void setTempText(String text) {
+    private void setTempText(String text) {
         tempText.setText(text);
     }
 
-    public void setAngleText(String text) {
+    private void setAngleText(String text) {
         angleText.setText(text);
     }
 
-    public void setLoadText(String text) {
+    private void setLoadText(String text) {
         loadText.setText(text);
+    }
+    private void setVoltageText(String text) {
+        voltageText.setText(text);
     }
 }
