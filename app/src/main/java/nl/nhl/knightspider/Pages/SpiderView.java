@@ -96,7 +96,7 @@ public class SpiderView extends WebView {
         setIdText("Servo id: " + id);
     }
     public void setServoVoltage(float voltage) {
-        setIdText("Voltage " + voltage);
+        setVoltageText("Voltage " + voltage);
     }
 
     private void setIdText(String text) {
