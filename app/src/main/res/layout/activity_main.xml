@@ -91,7 +91,7 @@
             <WebView
                 android:id="@+id/stream_viewer"
                 android:layout_width="match_parent"
-                android:layout_height="310dp"
+                android:layout_height="230dp"
                 android:visibility="visible">
 
             </WebView>
