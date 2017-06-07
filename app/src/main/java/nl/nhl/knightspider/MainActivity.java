@@ -2,13 +2,13 @@ package nl.nhl.knightspider;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -84,16 +84,20 @@ public class MainActivity extends AppCompatActivity {
         //Diagnostics screen
         diagnosticsScreen = new DiagnosticsScreen(getApplicationContext(), 2);
         diagnosticsLayout.addView(diagnosticsScreen);
-        diagnosticsScreen.setBattery(97);
-        diagnosticsScreen.setGyro(20);
-        diagnosticsScreen.setTemp(32);
+        diagnosticsScreen.setBattery(0);
+        diagnosticsScreen.setGyro(0);
+        diagnosticsScreen.setTemp(0);
+        diagnosticsScreen.setCpu(0);
 //        diagnosticsScreen.setVolt(3.3f);
 //        diagnosticsScreen.setLoad(40);
-        diagnosticsScreen.setCpu(1.1f);
 
         //Live stream screen
         WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
-        streamViewer.loadUrl("http://141.252.240.37:5000");
+        WebSettings settings=streamViewer.getSettings();
+        settings.setJavaScriptEnabled(true);
+        WebChromeClient client = new WebChromeClient();
+        streamViewer.setWebChromeClient(client);
+        streamViewer.loadUrl("http://141.252.240.37:5000/index.html");
         //Blog screen
         WebView blogViewer = (WebView) findViewById(R.id.blog_viewer);
         blogViewer.getSettings().setJavaScriptEnabled(true);
@@ -108,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.servo_voltage));
 
         spiderLayout.addView(spiderView, 0);
-        spiderView.setServoId(18);
-        spiderView.setTemp(32);
-        spiderView.setAngle(23);
-        spiderView.setLoad(50);
+        spiderView.setServoId(0);
+        spiderView.setTemp(0);
+        spiderView.setAngle(0);
+        spiderView.setLoad(0);
 
         showLayout(R.id.navigation_diagnostics);
         int Ĳ = 4;

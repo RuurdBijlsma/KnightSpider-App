@@ -2,7 +2,6 @@ package nl.nhl.knightspider.Communication;
 
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,8 +10,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -194,7 +191,7 @@ public class Connection {
             retrySnackbar.setAction("", null);
             return "Retrying connection now...";
         }
-        return String.format("Retrying connection in %s sec", connectionCountDown);
+        return String.format("Retrying connection in %s seconds", connectionCountDown);
     }
 
     private void retryConnection() {
@@ -205,8 +202,8 @@ public class Connection {
         }
         if (initSocket()) {
             connectionTryCount = 0;
-            retrySnackbar.dismiss();
         } else {
+            retrySnackbar = null;
             startRetry();
         }
 
