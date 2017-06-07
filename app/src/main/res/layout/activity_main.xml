@@ -73,7 +73,8 @@
                             android:id="@+id/servo_voltage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TextView" />
+                            android:text="TextView"
+                            tools:text="Voltage 3V" />
 
                     </LinearLayout>
 
