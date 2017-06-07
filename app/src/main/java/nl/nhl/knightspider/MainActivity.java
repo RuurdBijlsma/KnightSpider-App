@@ -28,12 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout liveStreamLayout;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            return showLayout(item.getItemId());
-        }
-    };
+            = item -> showLayout(item.getItemId());
 
     public SpiderView getSpiderView() {
         return spiderView;
@@ -95,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Live stream screen
         WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
-        streamViewer.loadUrl("http://141.252.240.172:5000");
+        streamViewer.loadUrl("http://141.252.240.37:5000");
         //Blog screen
         WebView blogViewer = (WebView) findViewById(R.id.blog_viewer);
         blogViewer.getSettings().setJavaScriptEnabled(true);
@@ -124,9 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Connect socket client to server
         Thread t = new Thread(() -> {
-            String jornLaptop = "141.252.229.227";
-            String spin = "141.252.240.172";
-            String ip = spin;
+            String ip = "141.252.240.37";
             int port = 4980;
             try {
                 Log.d("SOCKET", "creating connection");
