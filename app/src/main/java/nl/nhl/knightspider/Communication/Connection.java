@@ -38,9 +38,7 @@ public class Connection {
         this.ip = ip;
         this.port = port;
         this.activity = activity;
-        this.activity.getSpiderView().setOnServoInfoRequestedCallback((id) -> {
-            send(new Message(Identifiers.GET_SERVO, String.valueOf(id)));
-        });
+        this.activity.getSpiderView().setOnServoInfoRequestedCallback((id) -> send(new Message(Identifiers.GET_SERVO, String.valueOf(id))));
         if (!initSocket()) {
             startRetry();
         }
@@ -56,6 +54,10 @@ public class Connection {
     }
 
     private boolean initSocket() {
+        if (!this.activity.streamSuccess)
+            this.activity.runOnUiThread(() -> this.activity.streamViewer.loadUrl(this.activity.streamUrl));
+
+
         Log.d("SOCKET", "Creating new socket");
         clientSocket = new Socket();
         try {
@@ -166,15 +168,10 @@ public class Connection {
         } else {
             activity.runOnUiThread(() -> {
                 retrySnackbar.show();
-                retrySnackbar.setAction("Retry now", v ->
-                {
-                    new Thread(this::retryConnection).start();
-                });
+                retrySnackbar.setAction("Retry now", v -> new Thread(this::retryConnection).start());
                 retrySnackbar.setText(getCountDownString());
             });
         }
-
-
     }
 
     private void updateCountDown() {

@@ -7,9 +7,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -65,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     WebView spiderViewer;
+    public WebView streamViewer;
+    public String streamUrl = "http://141.252.240.37:5000/index.html";
+    public String blogUrl = "https://ruurdbijlsma.github.io/KnightSpider/blog.html";
+    public boolean streamSuccess = false;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -92,16 +98,25 @@ public class MainActivity extends AppCompatActivity {
 //        diagnosticsScreen.setLoad(40);
 
         //Live stream screen
-        WebView streamViewer = (WebView) findViewById(R.id.stream_viewer);
-        WebSettings settings=streamViewer.getSettings();
+        streamViewer = (WebView) findViewById(R.id.stream_viewer);
+        WebViewClient client = new WebViewClient() {
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                streamSuccess = false;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                streamSuccess = true;
+            }
+        };
+        streamViewer.setWebViewClient(client);
+        WebSettings settings = streamViewer.getSettings();
         settings.setJavaScriptEnabled(true);
-        WebChromeClient client = new WebChromeClient();
-        streamViewer.setWebChromeClient(client);
-        streamViewer.loadUrl("http://141.252.240.37:5000/index.html");
         //Blog screen
         WebView blogViewer = (WebView) findViewById(R.id.blog_viewer);
         blogViewer.getSettings().setJavaScriptEnabled(true);
-        blogViewer.loadUrl("https://ruurdbijlsma.github.io/KnightSpider/blog.html");
+        blogViewer.loadUrl(blogUrl);
 
         //Spider 3D stream screen
         spiderView = new SpiderView(getApplicationContext(),
