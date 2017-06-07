@@ -168,7 +168,11 @@ public class Connection {
             retrySnackbar.setAction("Retry now", v -> new Thread(this::retryConnection).start());
         } else {
             activity.runOnUiThread(() -> {
-                retrySnackbar.setAction("Retry now", v -> new Thread(this::retryConnection).start());
+                retrySnackbar.show();
+                retrySnackbar.setAction("Retry now", v ->
+                {
+                    new Thread(this::retryConnection).start();
+                });
                 retrySnackbar.setText(getCountDownString());
             });
         }
@@ -196,13 +200,12 @@ public class Connection {
     private void retryConnection() {
         if (retryTimer != null) {
             retryTimer.cancel();
+            retryTimer.purge();
             retryTimer = null;
         }
         if (initSocket()) {
             connectionTryCount = 0;
             retrySnackbar.dismiss();
-            retryTimer.cancel();
-            retryTimer = null;
         } else {
             startRetry();
         }
