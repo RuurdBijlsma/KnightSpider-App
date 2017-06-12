@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Connect socket client to server
         Thread t = new Thread(() -> {
-            String ip = "141.252.240.37";
+            String ip = "141.252.240.35";
             int port = 4980;
             try {
                 Log.d("SOCKET", "creating connection");

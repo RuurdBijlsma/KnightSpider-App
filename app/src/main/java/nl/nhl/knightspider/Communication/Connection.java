@@ -235,6 +235,7 @@ public class Connection {
             retryTimer = null;
         }
         if (initSocket()) {
+            retrySnackbar.dismiss();
             connectionTryCount = 0;
         } else {
             retrySnackbar = null;
