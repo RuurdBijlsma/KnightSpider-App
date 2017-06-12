@@ -20,20 +20,21 @@ import java.util.HashMap;
 
 import nl.nhl.knightspider.Communication.Connection;
 import nl.nhl.knightspider.Communication.ServoReadings;
-import nl.nhl.knightspider.Communication.SpiderInfo;
 import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
 
 public class MainActivity extends AppCompatActivity {
+    public WebView streamViewer;
+    public String streamUrl = "http://141.252.240.37:5000/index.html";
+    public String blogUrl = "https://ruurdbijlsma.github.io/KnightSpider/blog.html";
+    public boolean streamSuccess = false;
     BottomNavigationView navigation;
+    WebView spiderViewer;
     private LinearLayout spiderLayout;
-
     private HashMap<Integer, ServoReadings> servoReadingsCache;
-
     private ScrollView diagnosticsLayout;
     private DiagnosticsScreen diagnosticsScreen;
     private SpiderView spiderView;
-
     private LinearLayout liveStreamLayout;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> showLayout(item.getItemId());
@@ -50,6 +51,27 @@ public class MainActivity extends AppCompatActivity {
         spiderLayout.setVisibility(View.GONE);
         diagnosticsLayout.setVisibility(View.GONE);
         liveStreamLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        spiderView.resumeTimers();
+        spiderView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        spiderView.pauseTimers();
+        spiderView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        spiderView.destroy();
+        spiderView = null;
+        super.onDestroy();
     }
 
     private boolean showLayout(int id) {
@@ -70,12 +92,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
-    WebView spiderViewer;
-    public WebView streamViewer;
-    public String streamUrl = "http://141.252.240.37:5000/index.html";
-    public String blogUrl = "https://ruurdbijlsma.github.io/KnightSpider/blog.html";
-    public boolean streamSuccess = false;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -154,15 +170,13 @@ public class MainActivity extends AppCompatActivity {
 
         showLayout(R.id.navigation_diagnostics);
 
-        MainActivity that = this;
-
         //Connect socket client to server
         Thread t = new Thread(() -> {
             String ip = "141.252.240.37";
             int port = 4980;
             try {
                 Log.d("SOCKET", "creating connection");
-                Connection c = new Connection(ip, port, that);
+                Connection c = new Connection(ip, port, this);
             } catch (Exception e) {
                 Log.d("SOCKET", e.getMessage());
             }

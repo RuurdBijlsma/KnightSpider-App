@@ -16,6 +16,13 @@ import nl.nhl.knightspider.R;
  */
 
 public class DiagnosticsScreen extends LinearLayout {
+    private InfoCard batteryCard;
+    private InfoCard gyroCard;
+    private InfoCard tempCard;
+    private InfoCard voltCard;
+    private InfoCard loadCard;
+    private InfoCard cpuCard;
+
     public DiagnosticsScreen(Context context) {
         super(context);
     }
@@ -24,13 +31,6 @@ public class DiagnosticsScreen extends LinearLayout {
         super(context);
         addContent(cardsPerRow);
     }
-
-    private InfoCard batteryCard;
-    private InfoCard gyroCard;
-    private InfoCard tempCard;
-    private InfoCard voltCard;
-    private InfoCard loadCard;
-    private InfoCard cpuCard;
 
     public void addContent(int cardsPerRow) {
         DisplayMetrics metrics = getDisplayMetrics();
@@ -63,6 +63,9 @@ public class DiagnosticsScreen extends LinearLayout {
                 loadCard
         };
         addCards(servoCards, cardsPerRow);
+
+        int paddingBottom = dpToPx(46);
+        setPadding(0, 0, 0, paddingBottom);
     }
 
     private void addCards(InfoCard[] cards, int cardsPerRow) {
