@@ -22,6 +22,7 @@ public class DiagnosticsScreen extends LinearLayout {
     private InfoCard voltCard;
     private InfoCard loadCard;
     private InfoCard cpuCard;
+    private InfoCard servoTempCard;
 
     public DiagnosticsScreen(Context context) {
         super(context);
@@ -42,6 +43,7 @@ public class DiagnosticsScreen extends LinearLayout {
         cpuCard = new InfoCard(this.getContext(), darkColor, R.drawable.cpuicon, halfWidth, dpToPx(150));
         voltCard = new InfoCard(this.getContext(), darkColor, R.drawable.volticon, halfWidth, dpToPx(150));
         loadCard = new InfoCard(this.getContext(), darkColor, R.drawable.loadicon, halfWidth, dpToPx(150));
+        servoTempCard = new InfoCard(this.getContext(), darkColor, R.drawable.tempicon, halfWidth, dpToPx(150));
 
 
         setOrientation(LinearLayout.VERTICAL);
@@ -60,7 +62,8 @@ public class DiagnosticsScreen extends LinearLayout {
 
         InfoCard[] servoCards = {
                 voltCard,
-                loadCard
+                loadCard,
+                servoTempCard
         };
         addCards(servoCards, cardsPerRow);
 
@@ -123,6 +126,10 @@ public class DiagnosticsScreen extends LinearLayout {
         getCpuCard().setText("CPU " + value + "%");
     }
 
+    public void setServoTemp(float value) {
+        getServoTempCard().setText("Temperatuur " + value + "°");
+    }
+
     public InfoCard getBatteryCard() {
         return batteryCard;
     }
@@ -145,5 +152,9 @@ public class DiagnosticsScreen extends LinearLayout {
 
     public InfoCard getCpuCard() {
         return cpuCard;
+    }
+
+    public InfoCard getServoTempCard() {
+        return servoTempCard;
     }
 }
