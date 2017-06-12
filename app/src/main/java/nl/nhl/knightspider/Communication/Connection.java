@@ -106,6 +106,7 @@ public class Connection {
                         DiagnosticsScreen diagnosticsScreen = activity.getDiagnosticsScreen();
                         diagnosticsScreen.setLoad(activity.getAverageLoad());
                         diagnosticsScreen.setVolt(activity.getAverageVoltage());
+                        diagnosticsScreen.setServoTemp(activity.getAverageTemperature());
                     });
 
                     @SuppressLint("UseSparseArrays") HashMap<Integer, Float> angles = new HashMap<>();

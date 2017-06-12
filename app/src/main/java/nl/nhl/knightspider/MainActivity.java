@@ -207,4 +207,12 @@ public class MainActivity extends AppCompatActivity {
         }
         return value / getServoReadingsCache().size();
     }
+
+    public float getAverageTemperature() {
+        float value = 0;
+        for(ServoReadings servoReadings: getServoReadingsCache().values()) {
+            value += servoReadings.getTemperature();
+        }
+        return value / getServoReadingsCache().size();
+    }
 }
