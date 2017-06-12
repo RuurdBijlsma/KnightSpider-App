@@ -1,5 +1,8 @@
 package nl.nhl.knightspider;
 
+import android.annotation.SuppressLint;
+import android.os.IInterface;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -7,6 +10,9 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.net.*;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import nl.nhl.knightspider.Communication.ServoReadings;
 //import org.apache.http.conn.util.InetAddressUtils;
 
 public class Utils {
@@ -133,6 +139,24 @@ public class Utils {
             return gson.fromJson(json, mapType);
         }
         catch(Exception e) {
+            return null;
+        }
+    }
+
+    public static HashMap<Integer, ServoReadings> parseServoReadings(String json) {
+        Gson gson = new Gson();
+        Type mapType = new TypeToken<HashMap<Integer, String>>(){}.getType();
+        try {
+            HashMap<Integer,String> halfParsed = gson.fromJson(json, mapType);
+            @SuppressLint("UseSparseArrays") HashMap<Integer, ServoReadings> result = new HashMap<>();
+
+            for(Map.Entry<Integer, String> entry : halfParsed.entrySet()) {
+                result.put(entry.getKey(), gson.fromJson(entry.getValue(), ServoReadings.class));
+            }
+
+            return result;
+        }
+        catch (Exception e) {
             return null;
         }
     }

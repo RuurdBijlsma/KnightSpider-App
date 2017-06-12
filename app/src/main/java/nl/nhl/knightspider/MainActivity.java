@@ -16,7 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import nl.nhl.knightspider.Communication.Connection;
+import nl.nhl.knightspider.Communication.ServoReadings;
 import nl.nhl.knightspider.Communication.SpiderInfo;
 import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
@@ -24,6 +27,8 @@ import nl.nhl.knightspider.Pages.SpiderView;
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     private LinearLayout spiderLayout;
+
+    private HashMap<Integer, ServoReadings> servoReadingsCache;
 
     private ScrollView diagnosticsLayout;
     private DiagnosticsScreen diagnosticsScreen;
@@ -94,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
         diagnosticsScreen.setGyro(0);
         diagnosticsScreen.setTemp(0);
         diagnosticsScreen.setCpu(0);
-//        diagnosticsScreen.setVolt(3.3f);
-//        diagnosticsScreen.setLoad(40);
+        diagnosticsScreen.setVolt(3.3f);
+        diagnosticsScreen.setLoad(40);
 
         //Live stream screen
         streamViewer = (WebView) findViewById(R.id.stream_viewer);
@@ -131,11 +136,23 @@ public class MainActivity extends AppCompatActivity {
         spiderView.setTemp(0);
         spiderView.setAngle(0);
         spiderView.setLoad(0);
+        spiderView.setOnServoInfoRequestedCallback(i -> {
+            HashMap<Integer, ServoReadings> cache = getServoReadingsCache();
+            if (!cache.containsKey(i)) return;
+
+            ServoReadings servoReadings = cache.get(i);
+
+            runOnUiThread(() -> {
+                SpiderView spiderView = getSpiderView();
+                spiderView.setServoId(servoReadings.getId());
+                spiderView.setAngle(servoReadings.getPosition());
+                spiderView.setLoad((int) servoReadings.getLoad());
+                spiderView.setTemp(servoReadings.getTemperature());
+                spiderView.setVoltage(servoReadings.getVoltage());
+            });
+        });
 
         showLayout(R.id.navigation_diagnostics);
-        int Ĳ = 4;
-        SpiderInfo spinfo = SpiderInfo.fromJson("{\"slope\": 20, \"cpuTemperature\": 46.7, \"battery\": 200, \"cpuUsage\": 5.0}");
-        Log.d("JSON", spinfo.toString());
 
         MainActivity that = this;
 
@@ -151,5 +168,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         t.start();
+    }
+
+    public HashMap<Integer, ServoReadings> getServoReadingsCache() {
+        return servoReadingsCache;
+    }
+
+    public void setServoReadingsCache(HashMap<Integer, ServoReadings> servoReadingsCache) {
+        this.servoReadingsCache = servoReadingsCache;
+    }
+
+    public float getAverageLoad() {
+        float value = 0;
+        for(ServoReadings servoReadings: getServoReadingsCache().values()) {
+            value += servoReadings.getLoad();
+        }
+        return value / getServoReadingsCache().size();
+    }
+
+    public float getAverageVoltage() {
+        float value = 0;
+        for(ServoReadings servoReadings: getServoReadingsCache().values()) {
+            value += servoReadings.getVoltage();
+        }
+        return value / getServoReadingsCache().size();
     }
 }

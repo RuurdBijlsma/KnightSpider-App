@@ -1,7 +1,11 @@
 package nl.nhl.knightspider.Communication;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.util.SparseArray;
+
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,6 +14,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,6 +24,8 @@ import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
 import nl.nhl.knightspider.R;
 import nl.nhl.knightspider.Utils;
+
+import static nl.nhl.knightspider.Utils.parseServoReadings;
 
 /**
  * Created by bouke on 18-5-2017.
@@ -38,7 +46,9 @@ public class Connection {
         this.ip = ip;
         this.port = port;
         this.activity = activity;
-        this.activity.getSpiderView().setOnServoInfoRequestedCallback((id) -> send(new Message(Identifiers.GET_SERVO, String.valueOf(id))));
+//        this.activity.getSpiderView().setOnServoInfoRequestedCallback((id) -> {
+//            send(new Message(Identifiers.GET_SERVO, String.valueOf(id)));
+//        });
         if (!initSocket()) {
             startRetry();
         }
@@ -86,8 +96,35 @@ public class Connection {
                 });
 
                 break;
+
+            case Identifiers.SERVOS:
+                HashMap<Integer, ServoReadings> v = Utils.parseServoReadings(message.getPayload());
+                if (v != null) {
+                    activity.setServoReadingsCache(v);
+
+                    activity.runOnUiThread(() -> {
+                        DiagnosticsScreen diagnosticsScreen = activity.getDiagnosticsScreen();
+                        diagnosticsScreen.setLoad(activity.getAverageLoad());
+                        diagnosticsScreen.setVolt(activity.getAverageVoltage());
+                    });
+
+                    @SuppressLint("UseSparseArrays") HashMap<Integer, Float> angles = new HashMap<>();
+                    for(Map.Entry<Integer, ServoReadings> entry : v.entrySet()) {
+                        angles.put(entry.getKey(), entry.getValue().getPosition());
+                    }
+                    try {
+                        Gson gson = new Gson();
+                        activity.runOnUiThread(() -> activity.getSpiderView().setSpiderStanceFromJson(gson.toJson(angles)));
+
+                    }
+                    catch (Exception e) {
+                        break;
+                    }
+                }
+
+                break;
+
             case Identifiers.SERVO:
-                Log.d("SOCKET", message.getPayload());
                 ServoReadings servoReadings = ServoReadings.fromJson(message.getPayload());
                 if (servoReadings == null) {
                     return;
