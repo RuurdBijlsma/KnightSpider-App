@@ -3,6 +3,7 @@ package nl.nhl.knightspider.Communication;
 import android.annotation.SuppressLint;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.google.gson.Gson;
 
@@ -23,6 +24,8 @@ import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
 import nl.nhl.knightspider.R;
 import nl.nhl.knightspider.Utils;
+
+import static nl.nhl.knightspider.Utils.parseServoReadings;
 
 /**
  * Created by bouke on 18-5-2017.
@@ -232,7 +235,8 @@ public class Connection {
             retryTimer = null;
         }
         if (initSocket()) {
-            connectionTryCount = 4;
+            retrySnackbar.dismiss();
+            connectionTryCount = 0;
         } else {
             retrySnackbar = null;
             startRetry();
