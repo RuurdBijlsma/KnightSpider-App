@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         spiderView.setTemp(0);
         spiderView.setAngle(0);
         spiderView.setLoad(0);
+        spiderView.setVoltage(0);
         spiderView.setOnServoInfoRequestedCallback(i -> {
             HashMap<Integer, ServoReadings> cache = getServoReadingsCache();
             if (!cache.containsKey(i)) return;
