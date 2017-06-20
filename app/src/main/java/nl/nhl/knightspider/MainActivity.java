@@ -24,8 +24,10 @@ import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
 
 public class MainActivity extends AppCompatActivity {
+    public static String RASPBERRY_IP = "141.252.207.87";
+
     public WebView streamViewer;
-    public String streamUrl = "http://141.252.240.37:5000/index.html";
+    public String streamUrl = "http://" + RASPBERRY_IP + ":5000/index.html";
     public String blogUrl = "https://ruurdbijlsma.github.io/KnightSpider/blog.html";
     public boolean streamSuccess = false;
     BottomNavigationView navigation;
@@ -173,11 +175,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Connect socket client to server
         Thread t = new Thread(() -> {
-            String ip = "141.252.240.35";
             int port = 4980;
             try {
                 Log.d("SOCKET", "creating connection");
-                Connection c = new Connection(ip, port, this);
+                Connection c = new Connection(RASPBERRY_IP, port, this);
             } catch (Exception e) {
                 Log.d("SOCKET", e.getMessage());
             }
@@ -195,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
     public float getAverageLoad() {
         float value = 0;
-        for(ServoReadings servoReadings: getServoReadingsCache().values()) {
+        for (ServoReadings servoReadings : getServoReadingsCache().values()) {
             value += servoReadings.getLoad();
         }
         return value / getServoReadingsCache().size();
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
     public float getAverageVoltage() {
         float value = 0;
-        for(ServoReadings servoReadings: getServoReadingsCache().values()) {
+        for (ServoReadings servoReadings : getServoReadingsCache().values()) {
             value += servoReadings.getVoltage();
         }
         return value / getServoReadingsCache().size();
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
     public float getAverageTemperature() {
         float value = 0;
-        for(ServoReadings servoReadings: getServoReadingsCache().values()) {
+        for (ServoReadings servoReadings : getServoReadingsCache().values()) {
             value += servoReadings.getTemperature();
         }
         return value / getServoReadingsCache().size();
