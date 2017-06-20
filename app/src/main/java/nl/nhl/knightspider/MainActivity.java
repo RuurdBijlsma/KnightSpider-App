@@ -117,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
         diagnosticsScreen.setGyro(0);
         diagnosticsScreen.setTemp(0);
         diagnosticsScreen.setCpu(0);
-        diagnosticsScreen.setVolt(3.3f);
-        diagnosticsScreen.setLoad(40);
+        diagnosticsScreen.setVolt(0);
+        diagnosticsScreen.setLoad(0);
 
         //Live stream screen
         streamViewer = (WebView) findViewById(R.id.stream_viewer);
@@ -196,25 +196,40 @@ public class MainActivity extends AppCompatActivity {
 
     public float getAverageLoad() {
         float value = 0;
+        int nServos = 0;
         for (ServoReadings servoReadings : getServoReadingsCache().values()) {
-            value += servoReadings.getLoad();
+            float load = servoReadings.getLoad();
+            if (Math.abs(load - -500) > 0.1) {
+                value += load;
+                nServos++;
+            }
         }
-        return value / getServoReadingsCache().size();
+        return value / nServos;
     }
 
     public float getAverageVoltage() {
         float value = 0;
+        int nServos = 0;
         for (ServoReadings servoReadings : getServoReadingsCache().values()) {
-            value += servoReadings.getVoltage();
+            float voltage = servoReadings.getVoltage();
+            if (Math.abs(voltage - -500) > 0.1) {
+                value += voltage;
+                nServos++;
+            }
         }
-        return value / getServoReadingsCache().size();
+        return value / nServos;
     }
 
     public float getAverageTemperature() {
         float value = 0;
+        int nServos = 0;
         for (ServoReadings servoReadings : getServoReadingsCache().values()) {
-            value += servoReadings.getTemperature();
+            float temperature = servoReadings.getTemperature();
+            if (Math.abs(temperature - -500) > 0.1) {
+                value += temperature;
+                nServos++;
+            }
         }
-        return value / getServoReadingsCache().size();
+        return value / nServos;
     }
 }

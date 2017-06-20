@@ -3,7 +3,6 @@ package nl.nhl.knightspider.Communication;
 import android.annotation.SuppressLint;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.google.gson.Gson;
 
@@ -24,8 +23,6 @@ import nl.nhl.knightspider.Pages.DiagnosticsScreen;
 import nl.nhl.knightspider.Pages.SpiderView;
 import nl.nhl.knightspider.R;
 import nl.nhl.knightspider.Utils;
-
-import static nl.nhl.knightspider.Utils.parseServoReadings;
 
 /**
  * Created by bouke on 18-5-2017.
@@ -104,21 +101,26 @@ public class Connection {
 
                     activity.runOnUiThread(() -> {
                         DiagnosticsScreen diagnosticsScreen = activity.getDiagnosticsScreen();
-                        diagnosticsScreen.setLoad(activity.getAverageLoad());
-                        diagnosticsScreen.setVolt(activity.getAverageVoltage());
-                        diagnosticsScreen.setServoTemp(activity.getAverageTemperature());
+                        float avgLoad = Math.round(activity.getAverageLoad());
+                        Log.d("avg", "Load " + String.valueOf(avgLoad));
+                        diagnosticsScreen.setLoad(avgLoad);
+                        float avgVolt = Math.round(activity.getAverageVoltage() * 10) / 10;
+                        Log.d("avg", "Volt " + String.valueOf(avgVolt));
+                        diagnosticsScreen.setVolt(avgVolt);
+                        float avgTemp = Math.round(activity.getAverageTemperature());
+                        Log.d("avg", "Temp " + String.valueOf(avgTemp));
+                        diagnosticsScreen.setServoTemp(avgTemp);
                     });
 
                     @SuppressLint("UseSparseArrays") HashMap<Integer, Float> angles = new HashMap<>();
-                    for(Map.Entry<Integer, ServoReadings> entry : v.entrySet()) {
+                    for (Map.Entry<Integer, ServoReadings> entry : v.entrySet()) {
                         angles.put(entry.getKey(), entry.getValue().getPosition());
                     }
                     try {
                         Gson gson = new Gson();
                         activity.runOnUiThread(() -> activity.getSpiderView().setSpiderStanceFromJson(gson.toJson(angles)));
 
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         break;
                     }
                 }
